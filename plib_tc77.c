@@ -2,7 +2,7 @@
  * @file plib_tc77.c
  * @brief Pilote pour le TC77 (capteur de température)
  * @author Ramiro Najera
- * @version 1.0.0
+ * @version 1.0.1
  * @date 2025-04-30
  * @copyright Copyright (c) 2025
  */
@@ -25,11 +25,11 @@ void TC77_EndTranmission(SPI_t *spi)
 void TC77_ReadTemperatureReg(SPI_t *spi, unsigned char* readData)
 {
     // Start tranmission
-    MAX6627_StartTranmission(spi);
+    TC77_StartTranmission(spi);
     // Read register 
-    MAX6627_Read_Buffer(spi, readData, TC77_TEMP_REG_SIZE);
+    TC77_Read_Buffer(spi, readData, TC77_TEMP_REG_SIZE);
     // Stop tranmission
-    MAX6627_EndTranmission(spi);
+    TC77_EndTranmission(spi);
 }
 
 void TC77_UpdateTemperature(TC77_t* obj)
