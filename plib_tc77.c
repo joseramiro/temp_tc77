@@ -37,17 +37,13 @@ void TC77_UpdateTemperature(TC77_t* obj)
     unsigned char rawTemperature[2];
     union IntUsCharUnion convertedTemperature;
 
-    // Read raw register
+    // Read raw register, right shift unused bits (b2-b0)
     TC77_ReadTemperatureReg(&obj->spi, rawTemperature);
-    memcpy(&convertedTemperature.IntValue, &rawTemperature, 2);
-
-    // Right shift (bit 2-bit 0 from register unused)
-    convertedTemperature.IntValue = (convertedTemperature.IntValue >> 3);
+    convertedTemperature.IntValue = (CONCAT_BYTES(rawTemperature[0], rawTemperature[1]) >> 3);
 
     // Sign-extend 13-bit value (bit 12 is the sign bit)
     if (convertedTemperature.IntValue & TC77_SIGNESS_MASK)  // If negative
     {
-        //rawData.IntValue |= 0xFFFFE000;  // Sign-extend to 32 bits
         convertedTemperature.IntValue |= TC77_TEMPERATURE_MASK;  // Sign-extend to 16 bits
     }
 
