@@ -5,7 +5,7 @@
  * @file plib_tc77_spi.h
  * @brief Pilote SPI pour le TC77 (capteur de température)
  * @author Ramiro Najera
- * @version 1.0.1
+ * @version 1.0.3
  * @date 2025-04-24
  * @copyright Copyright (c) 2025
  */
