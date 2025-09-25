@@ -45,7 +45,7 @@ void TC77_UpdateTemperature(TC77_t* obj)
 
     // Read raw register, right shift unused bits (b2-b0)
     TC77_ReadTemperatureReg(&obj->spi, rawTemperature);
-    convertedTemperature.IntValue = (CONCAT_BYTES(rawTemperature[0], rawTemperature[1]) >> 3);
+    convertedTemperature.IntValue = (CONCAT(rawTemperature[0], rawTemperature[1]) >> 3);
 
     // Sign-extend 13-bit value (bit 12 is the sign bit)
     if (convertedTemperature.IntValue & TC77_SIGNESS_MASK)  // If negative
