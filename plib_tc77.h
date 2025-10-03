@@ -5,7 +5,7 @@
  * @file plib_tc77.h
  * @brief Pilote pour le TC77 (capteur de température)
  * @author Ramiro Najera
- * @version 1.0.3
+ * @version 1.0.4
  * @date 2025-04-30
  * @copyright Copyright (c) 2025
  */
