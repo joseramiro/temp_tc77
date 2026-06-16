@@ -9,26 +9,17 @@
 
 #include <string.h>
 #include "plib_tc77.h"
-#include "plib_tc77_spi.h"
 
-void TC77_StartTranmission(SPI_t *spi)
-{
-    if(spi->pinEN.Clear != NULL)
-        spi->pinEN.Clear();
-    if(spi->pinCS.Clear != NULL) 
-        spi->pinCS.Clear();
-}
+// Static functions
 
-void TC77_EndTranmission(SPI_t *spi)
-{
-    if(spi->pinCS.Set != NULL)
-        spi->pinCS.Set();
-    if(spi->pinEN.Set != NULL)
-        spi->pinEN.Set();
-}
+static void TC77_StartTranmission(SPI_t *spi);
+static void TC77_EndTranmission(SPI_t *spi);
+static void TC77_Read_Byte(SPI_t *spi, uint8_t* data);
+static void TC77_Read_Buffer(SPI_t *spi, uint8_t* data, uint16_t size);
 
-// Basic functions
-void TC77_ReadTemperatureReg(SPI_t *spi, unsigned char* readData)
+// Public API
+
+void TC77_ReadTemperatureReg(SPI_t *spi, uint8_t* readData)
 {
     // Start tranmission
     TC77_StartTranmission(spi);
@@ -40,7 +31,7 @@ void TC77_ReadTemperatureReg(SPI_t *spi, unsigned char* readData)
 
 void TC77_UpdateTemperature(TC77_t* obj)
 {
-    unsigned char rawTemperature[2];
+    uint8_t rawTemperature[2];
     union IntUsCharUnion convertedTemperature;
 
     // Read raw register, right shift unused bits (b2-b0)
@@ -60,4 +51,36 @@ void TC77_UpdateTemperature(TC77_t* obj)
 float TC77_GetTemperature(TC77_t* obj)
 {
     return obj->temperature;
+}
+
+// Static functions
+
+static void TC77_StartTranmission(SPI_t *spi)
+{
+    if(spi->pinEN.Clear)
+        spi->pinEN.Clear();
+    if(spi->pinCS.Clear) 
+        spi->pinCS.Clear();
+}
+
+static void TC77_EndTranmission(SPI_t *spi)
+{
+    if(spi->pinCS.Set)
+        spi->pinCS.Set();
+    if(spi->pinEN.Set)
+        spi->pinEN.Set();
+}
+
+static void TC77_Read_Byte(SPI_t *spi, uint8_t* data)
+{
+    if(spi->Read)
+        spi->Read(data, 1);
+}
+
+static void TC77_Read_Buffer(SPI_t *spi, uint8_t* data, uint16_t size)
+{
+    for(uint8_t i = 0; i < size; i++)
+    {
+        TC77_Read_Byte(spi, &data[i]);
+    } 
 }

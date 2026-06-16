@@ -32,7 +32,7 @@
 typedef struct
 {
     /** @brief Identifiant du module */
-    unsigned char id;
+    uint8_t id;
     /** @brief Temperature du capteur */
     float temperature;
     /** @brief Configuration de la communication SPI */
@@ -40,23 +40,11 @@ typedef struct
 }TC77_t;
 
 /**
- * @brief Démarre une transmission SPI avec le module MAX6627.
- * @param spi Pointeur vers la configuration SPI utilisée pour la communication.
- */
-void TC77_StartTranmission(SPI_t *spi);
-
-/**
- * @brief Termine une transmission SPI avec le module MAX6627.
- * @param spi Pointeur vers la configuration SPI utilisée pour la communication.
- */
-void TC77_EndTranmission(SPI_t *spi);
-
-/**
  * @brief Lit la température du campteur MAX6627
  * @param spi Configuration de la communication SPI
  * @param readData Température lue
  */
-void TC77_ReadTemperatureReg(SPI_t *spi, unsigned char* readData);
+void TC77_ReadTemperatureReg(SPI_t *spi, uint8_t* readData);
 
 /**
  * @brief Lit la température du capteur et met à jour la variable de température
