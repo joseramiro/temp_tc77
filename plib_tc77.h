@@ -11,7 +11,7 @@
  */
 
 #include "libs/common_c_libs/plib_comm_struct.h"
-#include "libs/common_c_libs/plib_data_struct.h"
+#include "libs/plib_data_struct/plib_data_struct.h"
 
 /** @brief Taille de registre de température */
 #define TC77_TEMP_REG_SIZE      2
